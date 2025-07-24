@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registrar Resultado</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-bg: #f8f9fa;
+      --dark-bg: #343a40;
+      --success-color: #27ae60;
+    }
+    
+    body {
+    background-image: url('https://images.unsplash.com/photo-1434648957308-5e6a859697e8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .navbar-custom {
+      background-color: var(--primary-color) !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .form-container {
+  background-color: rgba(255, 255, 255, 0.85); /* blanco con transparencia */
+  backdrop-filter: blur(6px); /* efecto de desenfoque del fondo */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+    
+    .form-title {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--secondary-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .form-label {
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+    
+    .form-control, .form-select {
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ced4da;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .btn-custom-primary {
+      background-color: var(--secondary-color);
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      color: white;
+    }
+    
+    .btn-custom-primary:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+    
+    .btn-custom-secondary {
+  background-color: rgba(255, 255, 255, 0.85); /* fondo blanco translúcido */
+  backdrop-filter: blur(3px);
+  border: 1px solid #ced4da;
+  color: var(--primary-color);
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+    
+    .btn-custom-secondary:hover {
+  background-color: rgba(248, 249, 250, 0.85);
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+    
+    .invalid-feedback {
+      color: var(--accent-color);
+    }
+    
+    .was-validated .form-control:invalid, 
+    .was-validated .form-select:invalid {
+      border-color: var(--accent-color);
+    }
+    
+    .was-validated .form-control:invalid:focus, 
+    .was-validated .form-select:invalid:focus {
+      box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
+    }
+    
+    .container-custom {
+      max-width: 800px;
+    }
+    
+    .form-control-plaintext {
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+  <div class="container">
+  
+    <a class="navbar-brand fw-bold">
+      <i class="bi bi-people-fill me-2"></i>Gestión de Partidos
+    </a>
+    
+    
+    <div class="d-flex align-items-center">
+      <a href="/admin/menu" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left-short me-2"></i>Volver al Menú
+      </a>
+    </div>
+  </div>
+</nav>
+  <div class="container container-custom my-5">
+    <div class="form-container">
+      <h1 class="form-title">Registrar Resultado del Partido</h1>
+
+      <form th:action="@{'/partidos/' + ${partido.id} + '/registrar-resultado'}" method="post" class="row g-3">
+        
+        <div class="col-md-6">
+          <label class="form-label">Equipo Local:</label>
+          <p class="form-control-plaintext" th:text="${partido.equipoLocal.nombre}"></p>
+        </div>
+        
+        <div class="col-md-6">
+          <label for="golesLocal" class="form-label">Goles Local:</label>
+          <input type="number" id="golesLocal" name="golesLocal" min="0" required class="form-control" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Equipo Visitante:</label>
+          <p class="form-control-plaintext" th:text="${partido.equipoVisitante.nombre}"></p>
+        </div>
+        
+        <div class="col-md-6">
+          <label for="golesVisitante" class="form-label">Goles Visitante:</label>
+          <input type="number" id="golesVisitante" name="golesVisitante" min="0" required class="form-control" />
+        </div>
+
+        <div class="col-12 mt-4">
+          <button type="submit" class="btn btn-custom-primary">Guardar Resultado</button>
+          <a th:href="@{/partidos}" class="btn btn-custom-secondary ms-2">Volver a la lista</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

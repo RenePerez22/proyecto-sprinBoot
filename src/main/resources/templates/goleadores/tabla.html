@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Goleadores</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-bg: #f8f9fa;
+    }
+    
+    body {
+      background: url('https://images.unsplash.com/photo-1670489520252-91fcbaa172f2?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .container {
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(6px);
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .table {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .table-dark {
+      background-color: var(--primary-color) !important;
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+    
+    h2 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Tabla de Goleadores</h2>
+  
+  <table class="table table-striped table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Jugador</th>
+        <th scope="col">Equipo</th>
+        <th scope="col">Goles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="g, iterStat : ${goleadores}">
+        <th scope="row" th:text="${iterStat.index + 1}">1</th>
+        <td th:text="${g.jugador.nombreCompleto}">Nombre</td>
+        <td th:text="${g.jugador.equipo.nombre}">Equipo</td>
+        <td th:text="${g.goles}">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <a href="/goleadores" class="btn btn-secondary mt-3">Volver</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

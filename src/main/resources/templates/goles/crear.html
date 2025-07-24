@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Gol</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --success-color: #27ae60;
+        }
+        
+        body {
+            background: url('https://images.unsplash.com/photo-1600250395178-40fe752e5189?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+          .navbar-custom {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 2rem;
+        }
+        
+        .form-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.5);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn-submit {
+            background-color: var(--success-color);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background-color: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-cancel {
+            background-color: rgba(108, 117, 125, 0.3);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: var(--primary-color);
+        }
+        
+        .btn-cancel:hover {
+            background-color: rgba(108, 117, 125, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .invalid-feedback {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .was-validated .form-control:invalid, 
+        .was-validated .form-select:invalid {
+            border-color: var(--accent-color);
+        }
+        
+        .was-validated .form-control:invalid:focus, 
+        .was-validated .form-select:invalid:focus {
+            box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
+        }
+    </style>
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+  <div class="container">
+  
+    <a class="navbar-brand fw-bold">
+      <i class="bi bi-people-fill me-2"></i>Gestión de Goles
+    </a>
+    
+    
+    <div class="d-flex align-items-center">
+      <a href="/admin/menu" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left-short me-2"></i>Volver al Menú
+      </a>
+    </div>
+  </div>
+</nav>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container">
+                <h1 class="form-title text-center">Registrar Gol</h1>
+
+                <form th:action="@{/goles}" th:object="${gol}" method="post" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="minuto" class="form-label">Minuto:</label>
+                        <input type="number" th:field="*{minuto}" min="0" required class="form-control" id="minuto" />
+                        <div class="invalid-feedback">Por favor ingresa un minuto válido.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="tipo" class="form-label">Tipo:</label>
+                        <input type="text" th:field="*{tipo}" required class="form-control" id="tipo" />
+                        <div class="invalid-feedback">Por favor ingresa el tipo de gol.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="jugador" class="form-label">Jugador:</label>
+                        <select th:field="*{jugador.id}" class="form-select" id="jugador" required>
+                            <option value="" disabled selected>Selecciona un jugador</option>
+                            <option th:each="j : ${jugadores}" th:value="${j.id}" th:text="${j.nombreCompleto}"></option>
+                        </select>
+                        <div class="invalid-feedback">Por favor selecciona un jugador.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="equipo" class="form-label">Equipo:</label>
+                        <select th:field="*{equipo.id}" class="form-select" id="equipo" required>
+                            <option value="" disabled selected>Selecciona un equipo</option>
+                            <option th:each="e : ${equipos}" th:value="${e.id}" th:text="${e.nombre}"></option>
+                        </select>
+                        <div class="invalid-feedback">Por favor selecciona un equipo.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="partido" class="form-label">Partido:</label>
+                        <select th:field="*{partido.id}" class="form-select" id="partido" required>
+                            <option value="" disabled selected>Selecciona un partido</option>
+                            <option th:each="p : ${partidos}" th:value="${p.id}" 
+                                    th:text="${p.id + ' - ' + p.equipoLocal.nombre + ' vs ' + p.equipoVisitante.nombre}">
+                            </option>
+                        </select>
+                        <div class="invalid-feedback">Por favor selecciona un partido.</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-submit text-white">Guardar</button>
+                        <a href="/goles" class="btn btn-cancel">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Validación Bootstrap nativa
+(() => {
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', e => {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+})();
+</script>
+
+</body>
+</html>

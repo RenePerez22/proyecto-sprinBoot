@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Jugadores Suspendidos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-bg: #f8f9fa;
+    }
+    
+    body {
+      background: url('https://images.unsplash.com/photo-1571080096581-53aefc318ac3?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 2rem;
+    }
+    
+    .container {
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(6px);
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .table {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+    
+    .table-dark {
+      background-color: var(--primary-color) !important;
+    }
+    
+    .table-hover tbody tr:hover {
+      background-color: rgba(52, 152, 219, 0.1);
+    }
+    
+    .table-bordered th, 
+    .table-bordered td {
+      border-color: rgba(0,0,0,0.1);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      color: white;
+    }
+    
+    h2 {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--secondary-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .badge-amarilla {
+      background-color: #f39c12;
+      color: white;
+      padding: 0.35em 0.65em;
+      border-radius: 50rem;
+    }
+    
+    .badge-roja {
+      background-color: #e74c3c;
+      color: white;
+      padding: 0.35em 0.65em;
+      border-radius: 50rem;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-muted {
+      color: #6c757d !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2 class="mb-4">Jugadores Suspendidos</h2>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Jugador</th>
+          <th>Equipo</th>
+          <th class="text-center">Amarillas</th>
+          <th class="text-center">Rojas</th>
+          <th>Motivo</th>
+          <th>Habilitado Desde</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="s, i : ${suspendidos}">
+          <td th:text="${i.index + 1}">1</td>
+          <td th:text="${s.jugador.nombreCompleto}">Jugador</td>
+          <td th:text="${s.jugador.equipo.nombre}">Equipo</td>
+          <td class="text-center">
+            <span th:if="${s.amarillas > 0}" class="badge badge-amarilla" th:text="${s.amarillas}">0</span>
+            <span th:if="${s.amarillas == 0}" class="text-muted">-</span>
+          </td>
+          <td class="text-center">
+            <span th:if="${s.rojas > 0}" class="badge badge-roja" th:text="${s.rojas}">0</span>
+            <span th:if="${s.rojas == 0}" class="text-muted">-</span>
+          </td>
+          <td th:text="${s.motivo}">Motivo</td>
+          <td th:text="${s.fechaHabilitado != null ? #temporals.format(s.fechaHabilitado, 'dd/MM/yyyy') : 'Indefinida'}">Fecha</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-end mt-4">
+    <a href="/suspendidos" class="btn btn-secondary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-1" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+      </svg>
+      Volver
+    </a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

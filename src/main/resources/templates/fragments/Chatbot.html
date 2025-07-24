@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="chatbot">
+    <!-- Chatbot Container -->
+    <div id="chatbot-container">
+        <!-- Botón flotante -->
+        <button id="chatbot-button" class="chatbot-visible">🤖</button>
+        
+        <!-- Ventana del Chat -->
+        <div id="chatbot-window" class="chatbot-hidden">
+            <div class="chat-header">
+                <h3>Asistente de Campeonatos</h3>
+                <button id="chatbot-close">✕</button>
+            </div>
+            <div id="chat-messages" class="chat-body">
+                <div class="message bot">¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-message" placeholder="Escribe tu pregunta...">
+                <button id="send-button">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluye los archivos CSS y JS -->
+    <link rel="stylesheet" th:href="@{/css/chatbot.css}">
+    <script th:src="@{/js/chatbot.js}" defer></script>
+</div>
+</body>
+</html>

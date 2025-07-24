@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Goles del Partido</title>
+</head>
+<body>
+    <h1>Goles del Partido (ID: <span th:text="${partidoId}">ID</span>)</h1>
+
+    <div th:if="${goles == null or #lists.isEmpty(goles)}">
+        <p>No hay goles registrados para este partido.</p>
+    </div>
+
+    <div th:if="${goles != null and !#lists.isEmpty(goles)}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Minuto</th>
+                    <th>Jugador</th>
+                    <th>Equipo</th>
+                    <th>Tipo de Gol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gol : ${goles}">
+                    <td th:text="${gol.minuto}">00</td>
+                    <td th:text="${gol.jugador != null ? gol.jugador.nombre : 'Sin jugador'}">Jugador</td>
+                    <td th:text="${gol.equipo != null ? gol.equipo.nombre : 'Sin equipo'}">Equipo</td>
+                    <td th:text="${gol.tipo}">Tipo</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <a th:href="@{/golporpartido/seleccionar-partido}">Volver a seleccionar partido</a>
+</body>
+</html>

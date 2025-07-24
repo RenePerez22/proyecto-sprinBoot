@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Seleccionar Temporada</title>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            background: url('https://images.unsplash.com/flagged/photo-1550413231-202a9d53a331?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .caja{
+        
+        width: 44rem;
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(5px);
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            backdrop-filter: blur(6px);
+            border: none;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .form-select {
+            background-color: rgba(255,255,255,0.9);
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+        
+        .btn-success {
+            background-color: #2ecc71;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-light {
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline-light:hover {
+            transform: translateY(-2px);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            font-weight: 600;
+        }
+        .mb-4{
+        margin-bottom: 5.5rem !important;
+        }
+        
+    </style>
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+  <div class="container">
+    <a class="navbar-brand fw-bold">
+      <i class="bi bi-calendar-event me-2">Partidos de la Temporada</i>
+    </a>
+    
+    <div class="d-flex align-items-center">
+      <a href="/jugadores/menu" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left-short me-2">Volver al Menú</i>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="text-center mb-4">
+    <div class="d-inline-block p-3 rounded-3 caja">
+        <h2 class=" mb-2">Seleccionar Temporada</h2>
+        <p class="mb-0 text-muted">Puedes visualizar todas las temporadas disponibles</p>
+    </div>
+</div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form th:action="@{/partidos/por-temporada}" method="post">
+                        <div class="mb-3">
+                            <label for="temporadaId" class="form-label fw-medium">Temporada:</label>
+                            <select name="temporadaId" id="temporadaId" class="form-select" required>
+                                <option disabled selected value="">-- Selecciona una temporada --</option>
+                                <option th:each="t : ${temporadas}" th:value="${t.id}" th:text="${t.nombre}"></option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">
+                                🔍 Ver Partidos
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

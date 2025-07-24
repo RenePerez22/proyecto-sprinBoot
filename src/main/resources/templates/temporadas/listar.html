@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Temporadas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --success-color: #27ae60;
+        }
+        
+        body {
+            background:url('https://plus.unsplash.com/premium_photo-1685055940272-93d70fe421c7?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar-custom {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .admin-container {
+            background-color: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(12px);               
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .table-custom {
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+                
+        .table-custom thead {
+            background-color: rgba(236, 240, 241, 0.2);
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .table-custom td,
+        .table-custom tr {
+            color: var(--primary-color);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .table-custom tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+        }
+        
+        .title-custom {
+            color: var(--primary-color);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+        }
+        
+        .btn-danger {
+            background-color: var(--accent-color);
+            border: none;
+        }
+        
+        .btn-warning {
+            background-color: #f39c12;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+  <div class="container">
+  
+    <a class="navbar-brand fw-bold">
+      <i class="bi bi-people-fill me-2"></i>Gestión de Temporadas
+    </a>
+    
+    
+    <div class="d-flex align-items-center">
+      <a href="/admin/menu" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left-short me-2"></i>Volver al Menú
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5">
+    <div class="admin-container">
+        <h1 class="mb-4 title-custom">
+            <i class="bi bi-calendar-range"></i> Lista de Temporadas
+        </h1>
+
+        <div class="d-flex gap-2 mb-4">
+            <a href="/temporadas/nuevo" class="btn btn-primary mb-3">
+                <i class="bi bi-plus-circle"></i> Crear Temporada
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table-custom table table-hover">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-card-heading"></i> Nombre</th>
+                        <th><i class="bi bi-calendar-check"></i> Fecha Inicio</th>
+                        <th><i class="bi bi-calendar-x"></i> Fecha Fin</th>
+                        <th><i class="bi bi-gear"></i> Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="temporada : ${temporadas}">
+                        <td th:text="${temporada.nombre}"></td>
+                        <td th:text="${temporada.fechaInicio}"></td>
+                        <td th:text="${temporada.fechaFin}"></td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a th:href="@{'/temporadas/editar/' + ${temporada.id}}" 
+                                   class="btn btn-sm btn-warning me-1">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                <a th:href="@{'/temporadas/eliminar/' + ${temporada.id}}" 
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('¿Eliminar temporada?')">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

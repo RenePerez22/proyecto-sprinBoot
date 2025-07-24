@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Partidos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-bg: #f8f9fa;
+      --dark-bg: #343a40;
+      --success-color: #27ae60;
+    }
+    
+    body {
+      background:url('https://images.unsplash.com/photo-1504305754058-2f08ccd89a0a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .navbar-custom {
+      background-color: var(--primary-color) !important;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    h2.text-custom {
+      font-weight: 701;            
+      font-size: 2.9rem;           
+      letter-spacing: 0.5px;      
+    }
+    
+    p.text-muted {
+      font-weight: 501;           
+      font-size: 1.6rem;
+      color: rgba(44, 62, 80, 0.7); 
+    }
+    
+    .card-hover {
+      background-color: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    
+    .header-section {
+      background-color: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .table-custom {
+      background-color: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-custom thead {
+      background-color: rgba(255, 255, 255, 0.35);
+      color: var(--primary-color);
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(44, 62, 80, 0.2);
+    }
+    
+    .table-custom td {
+      padding: 12px 16px;
+      vertical-align: middle;
+      background-color: transparent !important;
+      border-bottom: 1px solid rgba(44, 62, 80, 0.05);
+    }
+    
+    .table-custom tbody tr {
+      transition: all 0.2s ease;
+    }
+    
+    .table-custom tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+    }
+    
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      background-color: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(3px);
+      color: var(--primary-color);
+    }
+    
+    .btn-custom {
+      background-color: var(--secondary-color);
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s;
+      color: white;
+    }
+    
+    .btn-custom:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .pagination .page-link {
+      background-color: rgba(255, 255, 255, 0.25);
+      border: none;
+      color: var(--primary-color);
+    }
+    
+    .pagination .page-item.active .page-link {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+  <div class="container">
+    <a class="navbar-brand fw-bold">
+      <i class="bi bi-calendar-event me-2"></i>Gestión de Partidos
+    </a>
+    
+    <div class="d-flex align-items-center">
+      <a href="/admin/menu" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left-short me-2"></i>Volver al Menú
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-4">
+    <!-- Encabezado -->
+    <div class="header-section card-hover">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="text-custom mb-1">
+                    <i class="bi bi-calendar-event me-2"></i>Gestión de Partidos
+                </h2>
+                <p class="text-muted mb-0">Administra todos los partidos de la temporada</p>
+            </div>
+            <div>
+                <a href="/partidos/nuevo" class="btn btn-custom">
+                    <i class="bi bi-plus-lg me-1"></i>Agregar Partido
+                </a>
+            </div>
+        </div>
+    </div>
+      <!-- Barra de búsqueda y filtros -->
+    <div class="card mb-4 shadow-sm card-hover">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control search-box" placeholder="Buscar equipos...">
+                        <button class="btn btn-custom" type="button">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select">
+                        <option selected>Filtrar por temporada</option>
+                        <option>2023-2024</option>
+                        <option>2022-2023</option>
+                        <option>2021-2022</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de partidos -->
+    <div class="card shadow-sm card-hover">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-custom align-middle">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Local</th>
+                            <th>Visitante</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="p : ${partidos}">
+                            <td th:text="${p.fecha}"></td>
+                            <td th:text="${p.hora}"></td>
+                            <td th:text="${p.equipoLocal.nombre}"></td>
+                            <td th:text="${p.equipoVisitante.nombre}"></td>
+                             <td>
+              <span class="status-badge" th:text="${p.estado}"></span>
+            </td>
+                            <td class="action-buttons">
+                                <div class="d-flex flex-wrap gap-1">
+                                    <a th:href="@{'/partidos/editar/' + ${p.id}}" class="btn btn-sm btn-outline-warning">Editar</a>
+                                    <a th:href="@{'/partidos/eliminar/' + ${p.id}}" onclick="return confirm('¿Eliminar?')" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                    <a th:href="@{'/partidos/detalles/' + ${p.id}}" class="btn btn-sm btn-outline-info">Detalles</a>
+                                    <a th:href="@{'/partidos/' + ${p.id} + '/registrar-resultado'}" class="btn btn-sm btn-outline-success">Resultado</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginación -->
+    <nav class="mt-4" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

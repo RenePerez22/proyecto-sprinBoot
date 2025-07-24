@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Usuarios - Campeonato de Fútbol</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --light-bg: #f8f9fa;
+  --dark-bg: #343a40;
+  --success-color: #27ae60;
+}
+
+         body {
+  background:url('https://images.unsplash.com/photo-1504305754058-2f08ccd89a0a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-custom {
+  background-color: var(--primary-color) !important;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+h2.text-custom {
+  font-weight: 701;            
+  font-size: 2.9rem;           
+  letter-spacing: 0.5px;      
+  
+}
+
+p.text-muted {
+  font-weight: 501;           
+  font-size: 1.6rem;
+  color: rgba(44, 62, 80, 0.7); 
+}
+
+.card-hover,
+.card-body {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+.card-vidrio {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.stat-card {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  border-left: 4px solid var(--secondary-color);
+  border-radius: 8px;
+  height: 100%;
+}
+
+.search-box {
+  border-radius: 50px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  border: none;
+  color: #2c3e50;
+}
+
+.action-buttons .btn {
+  margin: 2px;
+  padding: 5px 10px;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(3px);
+  color: var(--primary-color);
+}
+
+.btn-custom {
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-custom:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+.table {
+  margin-bottom: 0;
+  color: #2c3e50;
+  background-color: transparent;
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.table-custom {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+}
+
+.table-custom th {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+
+.table-custom thead {
+  background-color: rgba(255, 255, 255, 0.35);
+  color: var(--primary-color);
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(44, 62, 80, 0.2);
+}
+.table-custom td {
+            padding: 12px 16px;
+            vertical-align: middle;
+            background-color: transparent !important;
+            border-bottom: 1px solid rgba(44, 62, 80, 0.05);
+        }
+        .table-custom tbody tr {
+            transition: all 0.2s ease;
+        }
+.table-custom tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+
+
+
+.table-custom tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.1); 
+}
+
+
+.bg-custom-light {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.text-custom {
+  color: var(--primary-color);
+}
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+  <div class="container">
+   
+    <a class="navbar-brand fw-bold">
+      <i class="bi bi-people-fill me-2"></i>Gestión de Usuarios
+    </a>
+    
+    
+    <div class="d-flex align-items-center">
+      <a href="/admin/menu" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left-short me-2"></i>Volver al Menú
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="container py-4">
+    <!-- Encabezado con estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="text-custom mb-0">
+                        <i class="bi bi-people"></i> Usuarios Registrados
+                    </h2>
+                    <p class="text-muted mb-0">Administra todos los usuarios del sistema</p>
+                </div>
+                <a th:href="@{/usuarios/nuevo}" class="btn btn-custom">
+                    <i class="bi bi-plus-lg"></i> Nuevo Usuario
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tarjetas de estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card h-100 card-hover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Total Usuarios</h6>
+                            <h3 class="mb-0 text-custom" th:text="${#lists.size(usuarios)}">0</h3>
+                        </div>
+                        <div class="bg-custom-light p-3 rounded">
+                            <i class="bi bi-people-fill text-custom"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card h-100 card-hover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Administradores</h6>
+                            <h3 class="mb-0 text-custom" th:text="${#lists.size(usuarios.?[rol.nombre == 'ADMIN'])}">0</h3>
+                        </div>
+                        <div class="bg-custom-light p-3 rounded">
+                            <i class="bi bi-shield-lock text-custom"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card h-100 card-hover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Usuarios Activos</h6>
+                            <h3 class="mb-0 text-custom" th:text="${#lists.size(usuarios.?[activo == true])}">0</h3>
+                        </div>
+                        <div class="bg-custom-light p-3 rounded">
+                            <i class="bi bi-check-circle text-custom"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card stat-card h-100 card-hover">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted mb-2">Usuarios Inactivos</h6>
+                            <h3 class="mb-0 text-custom" th:text="${#lists.size(usuarios.?[activo == false])}">0</h3>
+                        </div>
+                        <div class="bg-custom-light p-3 rounded">
+                            <i class="bi bi-x-circle text-custom"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de búsqueda y filtros -->
+    <div class="card mb-4 shadow-sm card-hover">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-0">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control search-box border-0 bg-light" placeholder="Buscar usuarios...">
+                        <button class="btn btn-custom" type="button">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select">
+                        <option selected>Filtrar por rol</option>
+                        <option>Administrador</option>
+                        <option>Entrenador</option>
+                        <option>Jugador</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de usuarios -->
+    <div class="card shadow-sm card-hover card-vidrio">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 table-custom">
+                    <thead class="table-custom">
+                        <tr>
+                            <th style="width: 25%">Nombre</th>
+                            <th style="width: 25%">Correo</th>
+                            <th style="width: 15%">Rol</th>
+                            <th style="width: 15%" class="text-center">Estado</th>
+                            <th style="width: 20%" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${usuarios}" class="cursor-pointer">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-custom-light rounded-circle p-2 me-3">
+                                        <i class="bi bi-person text-custom"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" th:text="${usuario.nombreCompleto}"></h6>
+                                        <small class="text-muted" th:text="'ID: ' + ${usuario.id}"></small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td th:text="${usuario.correo}"></td>
+                            <td>
+                                <span class="badge bg-custom-light text-custom" th:text="${usuario.rol.nombre}"></span>
+                            </td>
+                            <td class="text-center">
+                                <span th:if="${usuario.activo}" class="status-badge bg-custom-light text-success">
+                                    <i class="bi bi-check-circle-fill"></i> Activo
+                                </span>
+                                <span th:unless="${usuario.activo}" class="status-badge bg-danger bg-opacity-10 text-danger">
+                                    <i class="bi bi-x-circle-fill"></i> Inactivo
+                                </span>
+                            </td>
+                            <td class="text-center action-buttons">
+                                <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a th:href="@{'/usuarios/eliminar/' + ${usuario.id}}" 
+                                   onclick="return confirm('¿Estás seguro de eliminar este usuario?')"
+                                   class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginación -->
+    <nav class="mt-4" aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Bootstrap JS y dependencias -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Hacer filas clickeables (opcional)
+    document.querySelectorAll('tbody tr').forEach(row => {
+        row.addEventListener('click', (e) => {
+            // Evitar que se active al hacer clic en los botones
+            if (!e.target.closest('a, button')) {
+                window.location = row.querySelector('a[title="Ver detalles"]').href;
+            }
+        });
+    });
+</script>
+</body>
+</html>

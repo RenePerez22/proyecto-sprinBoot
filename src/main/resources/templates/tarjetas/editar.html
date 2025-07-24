@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Editar Tarjeta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+            --success-color: #27ae60;
+        }
+        
+        body {
+            background:url('https://images.unsplash.com/photo-1657957140620-905248fee9a1?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar-custom {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .card-hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .stat-card {
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 8px;
+            height: 100%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            border-radius: 50px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            border: none;
+            color: var(--primary-color);
+        }
+
+        .action-buttons .btn {
+            margin: 2px;
+            padding: 5px 10px;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(3px);
+            color: var(--primary-color);
+        }
+
+        .btn-custom {
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-custom:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .table-custom {
+            background-color: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+                
+        .table-custom thead {
+            background-color: rgba(236, 240, 241, 0.2);
+            color: var(--primary-color);
+            font-weight: 600;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(44, 62, 80, 0.2);
+        }
+        
+        .table-custom td,
+        .table-custom tr {
+            background-color: transparent !important;
+            color: white;
+        }
+        
+        .table-custom tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+        }
+
+        .bg-custom-light {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .text-custom {
+            color: var(--secondary-color);
+        }
+        
+        .text-color {
+            color: var(--primary-color);
+        }
+        
+        .admin-container {
+            background-color: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(12px);               
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .img-thumbnail-custom {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 2px solid #ecf0f1;
+        }
+        
+        .empty-state {
+            color: #6c757d;
+            font-style: italic;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .title-custom {
+            color: var(--primary-color);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+        }
+        
+        .btn-danger {
+            background-color: var(--accent-color);
+            border: none;
+        }
+        
+        /* Estilos específicos para el formulario */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .form-label {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .form-control, .form-select {
+            background-color: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: white;
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+            border-color: var(--secondary-color);
+        }
+        
+        .invalid-feedback {
+            color: #ffcccb;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+  <div class="container">
+  
+    <a class="navbar-brand fw-bold">
+      <i class="bi bi-people-fill me-2"></i>Gestión de Tarjetas
+    </a>
+    
+    
+    <div class="d-flex align-items-center">
+      <a href="/admin/menu" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left-short me-2"></i>Volver al Menú
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5">
+    <div class="form-container">
+        <h1 class="mb-4 title-custom">Editar Tarjeta</h1>
+
+        <form th:action="@{'/tarjetas/editar/' + ${tarjeta.id}}" th:object="${tarjeta}" method="post" class="row g-3 needs-validation" novalidate>
+
+            <div class="col-md-4">
+                <label for="minuto" class="form-label">Minuto:</label>
+                <input type="number" id="minuto" th:field="*{minuto}" class="form-control" required min="0" />
+                <div class="invalid-feedback">
+                    Por favor ingrese el minuto de la tarjeta.
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label for="tipo" class="form-label">Tipo:</label>
+                <input type="text" id="tipo" th:field="*{tipo}" class="form-control" required />
+                <div class="invalid-feedback">
+                    Por favor ingrese el tipo de tarjeta (Amarilla/Roja).
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label for="motivo" class="form-label">Motivo:</label>
+                <input type="text" id="motivo" th:field="*{motivo}" class="form-control" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="jugador" class="form-label">Jugador:</label>
+                <select id="jugador" th:field="*{jugador.id}" class="form-select" required>
+                    <option value="" disabled>Seleccione un jugador</option>
+                    <option th:each="j : ${jugadores}" th:value="${j.id}" th:text="${j.nombreCompleto}" 
+                        th:selected="${j.id == tarjeta.jugador.id}"></option>
+                </select>
+                <div class="invalid-feedback">
+                    Por favor seleccione un jugador.
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="partido" class="form-label">Partido:</label>
+                <select id="partido" th:field="*{partido.id}" class="form-select" required>
+                    <option value="" disabled>Seleccione un partido</option>
+                    <option th:each="p : ${partidos}" th:value="${p.id}" 
+                            th:text="${p.id + ' - ' + p.equipoLocal.nombre + ' vs ' + p.equipoVisitante.nombre}"
+                            th:selected="${p.id == tarjeta.partido.id}"></option>
+                </select>
+                <div class="invalid-feedback">
+                    Por favor seleccione un partido.
+                </div>
+            </div>
+
+            <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary me-2">Actualizar</button>
+                <a href="/tarjetas" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+(() => {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+
+</body>
+</html>

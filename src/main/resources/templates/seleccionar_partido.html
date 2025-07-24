@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Seleccionar Partido</title>
+</head>
+<body>
+    <h1>Seleccionar Partido</h1>
+    <form id="partidoForm" method="get">
+        <select name="partidoId" id="partidoId" onchange="if(this.value) window.location.href='/golporpartido/partido/' + this.value;">
+            <option value="" disabled selected>-- Selecciona un partido --</option>
+            <option th:each="partido : ${partidos}"
+                    th:value="${partido.id}"
+                    th:text="${partido.equipoLocal.nombre} + ' vs ' + ${partido.equipoVisitante.nombre}">
+            </option>
+        </select>
+    </form>
+</body>
+</html>
