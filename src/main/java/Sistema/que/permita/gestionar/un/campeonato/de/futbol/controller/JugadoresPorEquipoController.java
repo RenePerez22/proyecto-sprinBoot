@@ -22,7 +22,6 @@ public class JugadoresPorEquipoController {
     private final JugadorService jugadorService;
     private final EquipoService equipoService;
     private final EquipoRepository equipoRepository;
-    private final JugadorRepository jugadorRepository;
 
     public JugadoresPorEquipoController(JugadorService jugadorService, EquipoService equipoService,
 			EquipoRepository equipoRepository, JugadorRepository jugadorRepository) {
@@ -30,7 +29,6 @@ public class JugadoresPorEquipoController {
 		this.jugadorService = jugadorService;
 		this.equipoService = equipoService;
 		this.equipoRepository = equipoRepository;
-		this.jugadorRepository = jugadorRepository;
 	}
 
     //  Mostrar formulario con select de equipos
